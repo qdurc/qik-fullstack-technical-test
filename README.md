@@ -27,7 +27,6 @@ El objetivo del proyecto es demostrar dominio en desarrollo backend y frontend, 
 - `/backend`: API y lógica de negocio
 - `/frontend`: Aplicación móvil
 - `docker-compose.yml`: Servicios de base de datos y cache
-- `PROJECT_CHECKLIST.md`: Checklist interno de avance
 - `.env.example`: Variables de entorno de referencia
 
 ---
