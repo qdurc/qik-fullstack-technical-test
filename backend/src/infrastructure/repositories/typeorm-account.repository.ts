@@ -12,7 +12,9 @@ export class TypeOrmAccountRepository implements AccountRepository {
     private readonly accountsRepository: Repository<Account>,
   ) {}
 
-  async create(account: Pick<Account, 'userId' | 'currency'>): Promise<Account> {
+  async create(
+    account: Pick<Account, 'userId' | 'currency'>,
+  ): Promise<Account> {
     const entity = this.accountsRepository.create({
       userId: account.userId,
       currency: account.currency ?? null,
@@ -34,5 +36,24 @@ export class TypeOrmAccountRepository implements AccountRepository {
       take,
       skip,
     });
+  }
+
+  async findByUserId(
+    userId: string,
+    pagination?: PaginationInput,
+  ): Promise<Account[]> {
+    const take = pagination?.limit ?? 20;
+    const skip = pagination?.offset ?? 0;
+
+    return this.accountsRepository.find({
+      where: { userId },
+      order: { createdAt: 'DESC' },
+      take,
+      skip,
+    });
+  }
+
+  async countByUserId(userId: string): Promise<number> {
+    return this.accountsRepository.count({ where: { userId } });
   }
 }

@@ -24,6 +24,7 @@ import { RedisModule } from './redis/redis.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       introspection: true,
+      context: ({ req }) => ({ req }),
     }),
     CacheModule.registerAsync({
       isGlobal: true,

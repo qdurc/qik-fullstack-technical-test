@@ -1,6 +1,8 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { AccountRepository, ACCOUNT_REPOSITORY } from '../../domain/repositories/account.repository';
-import { LedgerRepository, LEDGER_REPOSITORY } from '../../domain/repositories/ledger.repository';
+import { ACCOUNT_REPOSITORY } from '../../domain/repositories/account.repository';
+import type { AccountRepository } from '../../domain/repositories/account.repository';
+import { LEDGER_REPOSITORY } from '../../domain/repositories/ledger.repository';
+import type { LedgerRepository } from '../../domain/repositories/ledger.repository';
 
 export interface BalanceSummary {
   accountId: string;
@@ -21,7 +23,10 @@ export class GetBalanceSummaryUseCase {
   async execute(accountId: string): Promise<BalanceSummary> {
     const account = await this.accountsRepository.findById(accountId);
     if (!account) {
-      throw new NotFoundException('Account not found');
+      throw new NotFoundException({
+        message: 'Account not found',
+        code: 'ACCOUNT_NOT_FOUND',
+      });
     }
 
     const summary = await this.ledgerRepository.getBalance(accountId);

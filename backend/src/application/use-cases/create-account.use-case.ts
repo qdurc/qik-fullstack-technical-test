@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Account } from '../../accounts/account.entity';
 import { CreateAccountInput } from '../../accounts/dto/create-account.input';
-import { AccountRepository, ACCOUNT_REPOSITORY } from '../../domain/repositories/account.repository';
+import { ACCOUNT_REPOSITORY } from '../../domain/repositories/account.repository';
+import type { AccountRepository } from '../../domain/repositories/account.repository';
 
 @Injectable()
 export class CreateAccountUseCase {

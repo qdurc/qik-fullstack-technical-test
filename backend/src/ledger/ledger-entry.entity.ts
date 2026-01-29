@@ -39,7 +39,9 @@ export class LedgerEntry {
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt!: Date;
 
-  @ManyToOne(() => Account, (account) => account.ledgerEntries, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Account, (account) => account.ledgerEntries, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'accountId' })
   account!: Account;
 }

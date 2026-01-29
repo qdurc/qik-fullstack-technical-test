@@ -38,6 +38,21 @@ El objetivo del proyecto es demostrar dominio en desarrollo backend y frontend, 
 - Cliente Redis disponible vía `REDIS_CLIENT` (ioredis).
 - Validación global con `class-validator`/`class-transformer`.
 
+## 🔐 Auth JWT (simple)
+
+- El backend espera `Authorization: Bearer <token>` en las operaciones protegidas.
+- El `userId` se toma desde el `sub` del JWT.
+
+Generar token de prueba:
+
+```bash
+cd backend
+JWT_SECRET=tu_secreto npm run token:dev -- <userId>
+```
+
+Ejemplo de uso en Postman:
+- Header: `Authorization: Bearer <token>`
+
 > ⚠️ **Nota de seguridad**  
 > Este repositorio no contiene credenciales reales ni datos sensibles.  
 > Las variables de entorno reales se manejan localmente y no se versionan.

@@ -1,17 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Account } from '../../accounts/account.entity';
-import { PaginationInput } from '../../common/dto/pagination.input';
 import { ACCOUNT_REPOSITORY } from '../../domain/repositories/account.repository';
 import type { AccountRepository } from '../../domain/repositories/account.repository';
 
 @Injectable()
-export class ListAccountsUseCase {
+export class CountAccountsUseCase {
   constructor(
     @Inject(ACCOUNT_REPOSITORY)
     private readonly accountsRepository: AccountRepository,
   ) {}
 
-  execute(userId: string, pagination?: PaginationInput): Promise<Account[]> {
-    return this.accountsRepository.findByUserId(userId, pagination);
+  execute(userId: string): Promise<number> {
+    return this.accountsRepository.countByUserId(userId);
   }
 }

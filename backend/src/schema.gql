@@ -2,6 +2,92 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Account {
+  createdAt: DateTime!
+  currency: String
+  id: String!
+  userId: String!
+}
+
+type AccountsPage {
+  items: [Account!]!
+  limit: Int!
+  page: Int!
+  total: Int!
+}
+
+type BalanceSummaryType {
+  accountId: String!
+  balance: String!
+  credits: String!
+  debits: String!
+}
+
+input CreateAccountInput {
+  currency: String
+  userId: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type LedgerEntry {
+  accountId: String!
+  amount: String!
+  createdAt: DateTime!
+  description: String
+  id: String!
+  type: TransactionType!
+}
+
+input LedgerFiltersInput {
+  accountId: String
+  createdFrom: DateTime
+  createdTo: DateTime
+  type: TransactionType
+}
+
+type Mutation {
+  createAccount(input: CreateAccountInput!): Account!
+  postCredit(input: PostCreditInput!): LedgerEntry!
+  postDebit(input: PostDebitInput!): LedgerEntry!
+}
+
+input PageInput {
+  limit: Int = 20
+  page: Int = 1
+}
+
+input PostCreditInput {
+  accountId: String!
+  amount: String!
+  description: String
+}
+
+input PostDebitInput {
+  accountId: String!
+  amount: String!
+  description: String
+}
+
 type Query {
+  account(id: String!): Account!
+  accounts(pagination: PageInput): AccountsPage!
+  balanceSummary(accountId: String!): BalanceSummaryType!
   health: String!
+  transactions(accountId: String!, filters: LedgerFiltersInput, pagination: PageInput): TransactionsPage!
+}
+
+enum TransactionType {
+  CREDIT
+  DEBIT
+}
+
+type TransactionsPage {
+  items: [LedgerEntry!]!
+  limit: Int!
+  page: Int!
+  total: Int!
 }

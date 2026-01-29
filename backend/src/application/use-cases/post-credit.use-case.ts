@@ -1,34 +1,54 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { LedgerEntry } from '../../ledger/ledger-entry.entity';
 import { PostTransactionInput } from '../../ledger/dto/post-transaction.input';
 import { TransactionType } from '../../common/enums/transaction-type.enum';
-import { AccountRepository, ACCOUNT_REPOSITORY } from '../../domain/repositories/account.repository';
-import { LedgerRepository, LEDGER_REPOSITORY } from '../../domain/repositories/ledger.repository';
+import { LEDGER_REPOSITORY } from '../../domain/repositories/ledger.repository';
+import type { LedgerRepository } from '../../domain/repositories/ledger.repository';
+import { AppError } from '../../common/errors/app-error';
 
 @Injectable()
 export class PostCreditUseCase {
   constructor(
-    @Inject(ACCOUNT_REPOSITORY)
-    private readonly accountsRepository: AccountRepository,
     @Inject(LEDGER_REPOSITORY)
     private readonly ledgerRepository: LedgerRepository,
   ) {}
 
   async execute(input: PostTransactionInput): Promise<LedgerEntry> {
-    const account = await this.accountsRepository.findById(input.accountId);
-    if (!account) {
-      throw new BadRequestException('Account not found');
-    }
-
     if (input.type !== TransactionType.CREDIT) {
-      throw new BadRequestException('Transaction type must be credit');
+      throw new BadRequestException({
+        message: 'Transaction type must be credit',
+        code: 'INVALID_AMOUNT',
+      });
     }
 
-    return this.ledgerRepository.create({
-      accountId: input.accountId,
-      type: TransactionType.CREDIT,
-      amount: input.amount,
-      description: input.description ?? null,
-    });
+    const amount = Number(input.amount);
+    if (Number.isNaN(amount) || amount <= 0) {
+      throw new BadRequestException({
+        message: 'Invalid amount',
+        code: 'INVALID_AMOUNT',
+      });
+    }
+
+    try {
+      return await this.ledgerRepository.postTransactionAtomic({
+        accountId: input.accountId,
+        type: TransactionType.CREDIT,
+        amount: input.amount,
+        description: input.description ?? null,
+      });
+    } catch (error) {
+      if (error instanceof AppError && error.code === 'ACCOUNT_NOT_FOUND') {
+        throw new NotFoundException({
+          message: error.message,
+          code: error.code,
+        });
+      }
+      throw error;
+    }
   }
 }

@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from '../auth/auth.module';
 import { GetBalanceSummaryUseCase } from '../application/use-cases/get-balance-summary.use-case';
 import { ListTransactionsUseCase } from '../application/use-cases/list-transactions.use-case';
 import { PostCreditUseCase } from '../application/use-cases/post-credit.use-case';
@@ -14,7 +15,7 @@ import { LedgerResolver } from './ledger.resolver';
 import { LedgerService } from './ledger.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([LedgerEntry, Account])],
+  imports: [TypeOrmModule.forFeature([LedgerEntry, Account]), AuthModule],
   providers: [
     LedgerService,
     LedgerResolver,
