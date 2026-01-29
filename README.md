@@ -31,6 +31,13 @@ El objetivo del proyecto es demostrar dominio en desarrollo backend y frontend, 
 
 ---
 
+## 🔧 Backend bootstrap
+
+- GraphQL está configurado en modo **code-first** y genera el esquema en `backend/src/schema.gql`.
+- Cache global con Redis usando `CacheModule`.
+- Cliente Redis disponible vía `REDIS_CLIENT` (ioredis).
+- Validación global con `class-validator`/`class-transformer`.
+
 > ⚠️ **Nota de seguridad**  
 > Este repositorio no contiene credenciales reales ni datos sensibles.  
 > Las variables de entorno reales se manejan localmente y no se versionan.
