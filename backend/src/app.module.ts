@@ -8,6 +8,8 @@ import { redisStore } from 'cache-manager-ioredis-yet';
 import { join } from 'path';
 import { typeOrmAsyncConfig } from './database/typeorm.config';
 import { HealthResolver } from './health/health.resolver';
+import { AccountsModule } from './accounts/accounts.module';
+import { LedgerModule } from './ledger/ledger.module';
 import { RedisModule } from './redis/redis.module';
 
 @Module({
@@ -34,6 +36,8 @@ import { RedisModule } from './redis/redis.module';
         }),
       }),
     }),
+    AccountsModule,
+    LedgerModule,
     RedisModule,
   ],
   providers: [HealthResolver],
