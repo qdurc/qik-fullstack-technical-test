@@ -61,11 +61,23 @@ query {
 ### Create Account
 ```graphql
 mutation {
-  createAccount(input: { userId: "c2a3f1c2-6e7d-4c2f-9a1c-111111111111", currency: "USD" }) {
+  createAccount(input: { currency: "USD" }) {
     id
     userId
     currency
     createdAt
+  }
+}
+```
+
+> Nota: `userId` se toma del JWT (claim `sub`). No se envía en el input.
+
+### Create Demo User (token rápido)
+```graphql
+mutation {
+  createDemoUser {
+    token
+    userId
   }
 }
 ```
@@ -166,4 +178,3 @@ Ejemplo de error (GraphQL):
 - `INSUFFICIENT_FUNDS`
 - `INVALID_AMOUNT`
 - `UNAUTHORIZED`
-
