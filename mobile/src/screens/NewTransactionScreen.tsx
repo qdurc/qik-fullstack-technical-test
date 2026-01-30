@@ -2,8 +2,8 @@ import React, {useMemo, useState} from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {useMutation} from '@apollo/client/react';
 import {POST_CREDIT_MUTATION, POST_DEBIT_MUTATION} from '../api/mutations';
-import {PrimaryButton} from '../components/PrimaryButton';
-import {LabeledInput} from '../components/LabeledInput';
+import {PrimaryButton} from '../ui/atoms/PrimaryButton';
+import {LabeledInput} from '../ui/atoms/LabeledInput';
 import {getGraphQLErrorMessage} from '../api/error';
 
 export const NewTransactionScreen: React.FC<{
@@ -28,13 +28,16 @@ export const NewTransactionScreen: React.FC<{
       return;
     }
     try {
+      const descriptionValue = description.trim();
+      const descriptionInput =
+        descriptionValue.length > 0 ? descriptionValue : undefined;
       if (type === 'credit') {
         await postCredit({
-          variables: {input: {accountId, amount, description}},
+          variables: {input: {accountId, amount, description: descriptionInput}},
         });
       } else {
         await postDebit({
-          variables: {input: {accountId, amount, description}},
+          variables: {input: {accountId, amount, description: descriptionInput}},
         });
       }
       setAmount('');
@@ -59,7 +62,7 @@ export const NewTransactionScreen: React.FC<{
           <PrimaryButton label="Débito" onPress={() => setType('debit')} />
         </View>
         <Text style={styles.subtitle}>Tipo: {header}</Text>
-        <LabeledInput label="Amount" value={amount} onChangeText={setAmount} />
+        <LabeledInput label="Monto" value={amount} onChangeText={setAmount} />
         <LabeledInput
           label="Description (opcional)"
           value={description}

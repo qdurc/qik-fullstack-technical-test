@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Account } from '../../accounts/account.entity';
-import { CreateAccountInput } from '../../accounts/dto/create-account.input';
 import { ACCOUNT_REPOSITORY } from '../../domain/repositories/account.repository';
 import type { AccountRepository } from '../../domain/repositories/account.repository';
 
@@ -11,7 +10,7 @@ export class CreateAccountUseCase {
     private readonly accountsRepository: AccountRepository,
   ) {}
 
-  execute(input: CreateAccountInput): Promise<Account> {
+  execute(input: { userId: string; currency?: string }): Promise<Account> {
     return this.accountsRepository.create({
       userId: input.userId,
       currency: input.currency ?? null,

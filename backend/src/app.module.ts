@@ -11,6 +11,7 @@ import { HealthResolver } from './health/health.resolver';
 import { AccountsModule } from './accounts/accounts.module';
 import { LedgerModule } from './ledger/ledger.module';
 import { RedisModule } from './redis/redis.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { RedisModule } from './redis/redis.module';
     AccountsModule,
     LedgerModule,
     RedisModule,
+    AuthModule,
   ],
   providers: [HealthResolver],
 })

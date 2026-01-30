@@ -1,12 +1,8 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsOptional, IsString, IsUUID, Length } from 'class-validator';
+import { IsOptional, IsString, Length } from 'class-validator';
 
 @InputType()
 export class CreateAccountInput {
-  @Field(() => String)
-  @IsUUID()
-  userId!: string;
-
   @Field(() => String, { nullable: true })
   @IsOptional()
   @IsString()

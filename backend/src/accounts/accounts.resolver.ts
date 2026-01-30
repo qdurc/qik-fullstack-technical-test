@@ -13,8 +13,18 @@ export class AccountsResolver {
 
   @Mutation(() => Account)
   @UseGuards(JwtAuthGuard)
-  createAccount(@Args('input') input: CreateAccountInput): Promise<Account> {
-    return this.accountsService.create(input);
+  createAccount(
+    @Args('input') input: CreateAccountInput,
+    @Context() ctx: { req?: { user?: { id?: string; sub?: string } } },
+  ): Promise<Account> {
+    const userId = ctx?.req?.user?.sub ?? ctx?.req?.user?.id;
+    if (!userId) {
+      throw new Error('Unauthorized');
+    }
+    return this.accountsService.create({
+      ...input,
+      userId,
+    });
   }
 
   @Query(() => AccountsPage)

@@ -16,6 +16,11 @@ type AccountsPage {
   total: Int!
 }
 
+type AuthPayload {
+  token: String!
+  userId: String!
+}
+
 type BalanceSummaryType {
   accountId: String!
   balance: String!
@@ -25,7 +30,6 @@ type BalanceSummaryType {
 
 input CreateAccountInput {
   currency: String
-  userId: String!
 }
 
 """
@@ -51,6 +55,7 @@ input LedgerFiltersInput {
 
 type Mutation {
   createAccount(input: CreateAccountInput!): Account!
+  createDemoUser: AuthPayload!
   postCredit(input: PostCreditInput!): LedgerEntry!
   postDebit(input: PostDebitInput!): LedgerEntry!
 }

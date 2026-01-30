@@ -3,7 +3,7 @@ import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {useQuery} from '@apollo/client/react';
 import {BALANCE_QUERY} from '../api/queries';
 import type {BalanceSummary, Account} from '../types/models';
-import {PrimaryButton} from '../components/PrimaryButton';
+import {PrimaryButton} from '../ui/atoms/PrimaryButton';
 import {getGraphQLErrorMessage} from '../api/error';
 
 export const AccountDetailScreen: React.FC<{
@@ -24,7 +24,7 @@ export const AccountDetailScreen: React.FC<{
       <View style={styles.card}>
         <Text style={styles.title}>Cuenta</Text>
         <Text style={styles.subtitle}>{account.id}</Text>
-        <Text style={styles.line}>Currency: {account.currency ?? 'N/A'}</Text>
+        <Text style={styles.line}>Moneda: {account.currency ?? 'N/D'}</Text>
         {loading && <Text style={styles.subtle}>Cargando balance...</Text>}
         {error && (
           <Text style={styles.error}>{getGraphQLErrorMessage(error)}</Text>
@@ -32,8 +32,8 @@ export const AccountDetailScreen: React.FC<{
         {summary && (
           <View style={styles.balanceBox}>
             <Text style={styles.balanceText}>Balance: {summary.balance}</Text>
-            <Text style={styles.subtle}>Credits: {summary.credits}</Text>
-            <Text style={styles.subtle}>Debits: {summary.debits}</Text>
+            <Text style={styles.subtle}>Créditos: {summary.credits}</Text>
+            <Text style={styles.subtle}>Débitos: {summary.debits}</Text>
           </View>
         )}
         <View style={styles.actions}>

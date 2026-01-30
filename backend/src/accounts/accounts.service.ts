@@ -16,8 +16,14 @@ export class AccountsService {
     private readonly countAccountsUseCase: CountAccountsUseCase,
   ) {}
 
-  create(input: CreateAccountInput): Promise<Account> {
-    return this.createAccountUseCase.execute(input);
+  create(input: CreateAccountInput & { userId?: string }): Promise<Account> {
+    if (!input.userId) {
+      throw new Error('userId is required');
+    }
+    return this.createAccountUseCase.execute({
+      userId: input.userId,
+      currency: input.currency,
+    });
   }
 
   async listByUser(

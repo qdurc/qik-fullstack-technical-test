@@ -3,8 +3,8 @@ import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {useQuery} from '@apollo/client/react';
 import {TRANSACTIONS_QUERY} from '../api/queries';
 import type {LedgerEntry, TransactionsPage} from '../types/models';
-import {PrimaryButton} from '../components/PrimaryButton';
-import {LabeledInput} from '../components/LabeledInput';
+import {PrimaryButton} from '../ui/atoms/PrimaryButton';
+import {LabeledInput} from '../ui/atoms/LabeledInput';
 import {getGraphQLErrorMessage} from '../api/error';
 
 export const TransactionsScreen: React.FC<{
@@ -50,12 +50,13 @@ export const TransactionsScreen: React.FC<{
     }
   }, [data, page]);
 
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Movimientos</Text>
       <View style={styles.filters}>
         <LabeledInput
-          label="Type (credit/debit)"
+          label="Tipo (crédito/débito)"
           value={type}
           onChangeText={setType}
         />
@@ -101,8 +102,6 @@ export const TransactionsScreen: React.FC<{
         contentContainerStyle={styles.list}
       />
       <View style={styles.footer}>
-        <PrimaryButton label="Load more" onPress={() => setPage(p => p + 1)} />
-        <View style={styles.spacer} />
         <PrimaryButton label="Volver" onPress={onBack} />
       </View>
     </SafeAreaView>

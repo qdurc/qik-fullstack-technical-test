@@ -2,8 +2,9 @@ import React, {createContext, useContext, useMemo, useState} from 'react';
 
 type AuthContextValue = {
   token: string;
-  setToken: (token: string) => void;
-  clearToken: () => void;
+  userId: string;
+  setAuth: (token: string, userId: string) => void;
+  clearAuth: () => void;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -12,20 +13,26 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({
   children,
 }) => {
   const [token, setTokenState] = useState('');
+  const [userId, setUserId] = useState('');
 
-  const setToken = (next: string) => {
-    setTokenState(next.trim());
+  const setAuth = (nextToken: string, nextUserId: string) => {
+    setTokenState(nextToken.trim());
+    setUserId(nextUserId.trim());
   };
 
-  const clearToken = () => setTokenState('');
+  const clearAuth = () => {
+    setTokenState('');
+    setUserId('');
+  };
 
   const value = useMemo(
     () => ({
       token,
-      setToken,
-      clearToken,
+      userId,
+      setAuth,
+      clearAuth,
     }),
-    [token],
+    [token, userId],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

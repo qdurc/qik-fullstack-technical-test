@@ -17,7 +17,7 @@ El objetivo del proyecto es demostrar dominio en desarrollo backend y frontend, 
 - JWT
 - Docker Compose
 
-**Frontend**
+**Mobile**
 - React Native + TypeScript
 
 ---
@@ -25,7 +25,7 @@ El objetivo del proyecto es demostrar dominio en desarrollo backend y frontend, 
 ## 📂 Estructura del Proyecto
 
 - `/backend`: API y lógica de negocio
-- `/frontend`: Aplicación móvil
+- `/mobile`: Aplicación móvil
 - `docker-compose.yml`: Servicios de base de datos y cache
 - `.env.example`: Variables de entorno de referencia
 
@@ -49,6 +49,13 @@ Generar token de prueba:
 cd backend
 JWT_SECRET=tu_secreto npm run token:dev -- <userId>
 ```
+
+También puedes usar la mutation `createDemoUser` desde la app móvil para crear un usuario demo y obtener un token automáticamente.
+
+## 📱 Mobile
+
+Las instrucciones completas para correr iOS/Android y apuntar al backend local están en:
+`/mobile/README.md`
 
 Ejemplo de uso en Postman:
 - Header: `Authorization: Bearer <token>`

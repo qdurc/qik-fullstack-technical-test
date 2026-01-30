@@ -11,6 +11,15 @@ export const CREATE_ACCOUNT_MUTATION = gql`
   }
 `;
 
+export const CREATE_DEMO_USER_MUTATION = gql`
+  mutation CreateDemoUser {
+    createDemoUser {
+      token
+      userId
+    }
+  }
+`;
+
 export const POST_CREDIT_MUTATION = gql`
   mutation PostCredit($input: PostCreditInput!) {
     postCredit(input: $input) {
